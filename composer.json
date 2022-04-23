@@ -1,0 +1,20 @@
+{
+    "name": "alzee/qstamp",
+    "description": "SDK for qyunxi stamps.",
+    "type": "library",
+    "require": {
+        "symfony/http-client": "^6.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Alzee\\Qstamp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Al Zee",
+            "email": "z@alz.ee"
+        }
+    ]
+}
