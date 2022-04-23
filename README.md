@@ -1,4 +1,4 @@
-# SDK for qyunxi stamps.
+# SDK for qyunxi stamp.
 
 ```
 composer req alzee/qstamp
