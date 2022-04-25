@@ -4,6 +4,7 @@ namespace Alzee\Qstamp;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\Dotenv\Dotenv;
 
 class Qstamp
 {
@@ -13,6 +14,7 @@ class Qstamp
     private $stamp_token;
     private $url;
     private $client;
+    private $dotenv;
 
     public function __construct(HttpClientInterface $client)
     {
@@ -20,6 +22,8 @@ class Qstamp
         $this->url = $_ENV['api_url'];
         $this->client = $client;
         // $client = HttpClient::create();
+        $dotenv = new Dotenv();
+        $dotenv->loadEnv(__DIR__.'/.env');
     }
 
     public function pushApplication($applicationId, $uid, $totalCount = 3, $needCount=0)
@@ -38,7 +42,11 @@ class Qstamp
     public function changeMode($mode)
     {
         $api = "/device/model";
-        # curl -H "tToken: $token" "$api_url/$api" -d "uuid=$uuid&model=0"
+        $body = [
+            'model' => $mode,
+            'uuid' => $this->uuid
+        ];
+        $response = $this->request($api, $body);
     }
 
     public function listFingerprints()
@@ -64,18 +72,31 @@ class Qstamp
     public function delFingerprint($uid)
     {
         $api = "/finger/del";
+        $body = [
+            'userId' => $uid,
+            'uuid' => $this->uuid
+        ];
+        $response = $this->request($api, $body);
     }
 
     public function idUse($uid, $username)
     {
         $api = "/device/idUse";
-        // curl -H "tToken: $token" "$api_url/$api" -d "userId=$uid&username=$uname&uuid=$uuid"
+        $body = [
+            'userId' => $uid,
+            'username' => $username,
+            'uuid' => $this->uuid
+        ];
+        $response = $this->request($api, $body);
     }
 
     public function records()
     {
         $api = "/record/list";
-        // curl -H "tToken: $token" "$api_url/$api" -d "uuid=$uuid"
+        $body = [
+            'uuid' => $this->uuid
+        ];
+        return $this->request($api, $body);
     }
 
     public function getUid($applicant = null)
