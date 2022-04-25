@@ -26,7 +26,7 @@ class Qstamp
     {
         $api="/auth/tToken";
         $query="key=$key&secret=$secret";
-        $api = $api . '/' . $query;
+        $api = $api . '?' . $query;
         $response = $this->request($api);
         return $response;
     }
