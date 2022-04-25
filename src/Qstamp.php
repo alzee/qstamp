@@ -15,7 +15,8 @@ class Qstamp
     public function __construct($UUID, $TOKEN)
     {
         $dotenv = new Dotenv();
-        $dotenv->loadEnv($_SERVER['DOCUMENT_ROOT'] . '../.env');
+        # Some Apache config have trailing slashes
+        $dotenv->loadEnv(realpath($_SERVER['DOCUMENT_ROOT']) . '/../.env');
 
         $this->UUID = $UUID;
         $this->TOKEN = $TOKEN;
