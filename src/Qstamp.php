@@ -9,8 +9,6 @@ use Symfony\Component\Dotenv\Dotenv;
 class Qstamp
 {
     private $uuid = '0X3600303238511239343734';
-    private $T_STAMP= 'C4NyFxsNsBuQ5PdsCbaGzYeUQ6u6bT4Teg6BUE1it';
-    private $T_FINGERPRINT = '3WK7zYJYf5SyLeiEqedzYYWbwddQMeEi3nwbTujq';
     private $stamp_token;
     private $url;
     private $httpClient;
@@ -18,12 +16,14 @@ class Qstamp
 
     public function __construct(HttpClientInterface $httpClient)
     {
-        $this->stamp_token = $_ENV['stamp_token'];
-        $this->url = $_ENV['api_url'];
-        $this->httpClient = $httpClient;
-        // $httpClient = HttpClient::create();
         $dotenv = new Dotenv();
         $dotenv->loadEnv(__DIR__.'/.env');
+        $this->httpClient = $httpClient;
+        // $httpClient = HttpClient::create();
+
+        $this->stamp_token = $_ENV['stamp_token'];
+        $this->url = $_ENV['api_url'];
+
     }
 
     public function pushApplication($applicationId, $uid, $totalCount = 3, $needCount=0)
@@ -90,6 +90,16 @@ class Qstamp
         $response = $this->request($api, $body);
     }
 
+    public function setSleepTime($min = 30)
+    {
+        $api="/device/sleep";
+        $body = [
+            'sleep' => $min,
+            'uuid' => $this->uuid
+        ];
+        $response = $this->request($api, $body);
+    }
+
     public function records()
     {
         $api = "/record/list";
@@ -126,5 +136,9 @@ class Qstamp
         );
         $content = $response->getContent();
         return $response;
+    }
+
+    public function uploadPic()
+    {
     }
 }
