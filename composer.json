@@ -3,6 +3,7 @@
     "description": "qyunxi stamp SDK for php",
     "type": "library",
     "require": {
+        "symfony/dotenv": "6.0.*",
         "symfony/http-client": "^6.0"
     },
     "license": "MIT",
