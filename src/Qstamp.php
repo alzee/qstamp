@@ -28,7 +28,7 @@ class Qstamp
         $query="key=$key&secret=$secret";
         $api = $api . '?' . $query;
         $response = $this->request($api);
-        return $response->getContent();
+        return json_decode($response->getContent())->data;
     }
 
     public function pushApplication($applicationId, $uid, $totalCount = 3, $needCount=0)
