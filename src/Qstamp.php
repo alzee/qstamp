@@ -11,14 +11,12 @@ class Qstamp
     private $UUID;
     private $TOKEN;
     private $API_URL;
-    private $httpClient;
     private $dotenv;
 
     public function __construct($UUID, $TOKEN)
     {
         $dotenv = new Dotenv();
         $dotenv->loadEnv($_SERVER['DOCUMENT_ROOT'] . '../.env');
-        $httpClient = HttpClient::create();
 
         $this->UUID = $UUID;
         $this->TOKEN = $TOKEN;
@@ -125,6 +123,7 @@ class Qstamp
 
     public function request($api, $body)
     {
+        $httpClient = HttpClient::create();
         $headers = ["tToken: $this->TOKEN"];
         $response = $this->httpClient->request(
             'POST',
