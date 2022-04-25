@@ -11,7 +11,6 @@ class Qstamp
     private $UUID;
     private $TOKEN;
     private $API_URL;
-    private $dotenv;
 
     public function __construct($UUID, $TOKEN)
     {
@@ -21,7 +20,15 @@ class Qstamp
         $this->UUID = $UUID;
         $this->TOKEN = $TOKEN;
         $this->API_URL = $_ENV['QSTAMP_API_URL'];
+    }
 
+    public function getToken($key, $secret)
+    {
+        $api="/auth/tToken";
+        $query="key=$key&secret=$secret";
+        $api = $api . '/' . $query;
+        $response = $this->request($api);
+        return $response;
     }
 
     public function pushApplication($applicationId, $uid, $totalCount = 3, $needCount=0)
@@ -121,18 +128,27 @@ class Qstamp
         return $uid;
     }
 
-    public function request($api, $body)
+    public function request($api, $body = null, $method = 'GET')
     {
         $httpClient = HttpClient::create();
         $headers = ["tToken: $this->TOKEN"];
-        $response = $this->httpClient->request(
-            'POST',
-            $this->API_URL . $api,
-            [
+
+        if (is_null($body)) {
+            $payload = [];
+        } else {
+            $method = 'POST';
+            $payload = [
                 'headers' => $headers,
                 'body' => $body
-            ]
+            ];
+        }
+
+        $response = $httpClient->request(
+            $method,
+            $this->API_URL . $api,
+            $payload
         );
+
         $content = $response->getContent();
         return $response;
     }
