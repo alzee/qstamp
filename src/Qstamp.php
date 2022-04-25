@@ -8,21 +8,21 @@ use Symfony\Component\Dotenv\Dotenv;
 
 class Qstamp
 {
-    private $uuid = '0X3600303238511239343734';
-    private $stamp_token;
-    private $url;
+    private $UUID;
+    private $TOKEN;
+    private $API_URL;
     private $httpClient;
     private $dotenv;
 
-    public function __construct(HttpClientInterface $httpClient)
+    public function __construct($UUID, $TOKEN)
     {
         $dotenv = new Dotenv();
         $dotenv->loadEnv(__DIR__.'/.env');
-        $this->httpClient = $httpClient;
-        // $httpClient = HttpClient::create();
+        $httpClient = HttpClient::create();
 
-        $this->stamp_token = $_ENV['stamp_token'];
-        $this->url = $_ENV['api_url'];
+        $this->UUID = $UUID;
+        $this->TOKEN = $TOKEN;
+        $this->API_URL = $_ENV['QSTAMP_API_URL'];
 
     }
 
@@ -34,7 +34,7 @@ class Qstamp
             'userId' => $uid,
             'totalCount' => $totalCount,
             // 'needCount' => $needCount,
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         $response = $this->request($api, $body);
     }
@@ -44,7 +44,7 @@ class Qstamp
         $api = "/device/model";
         $body = [
             'model' => $mode,
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         $response = $this->request($api, $body);
     }
@@ -53,7 +53,7 @@ class Qstamp
     {
         $api = "/finger/list";
         $body = [
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         return $this->request($api, $body);
     }
@@ -64,7 +64,7 @@ class Qstamp
         $body = [
             'userId' => $uid,
             'username' => $username,
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         $response = $this->request($api, $body);
     }
@@ -74,7 +74,7 @@ class Qstamp
         $api = "/finger/del";
         $body = [
             'userId' => $uid,
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         $response = $this->request($api, $body);
     }
@@ -85,7 +85,7 @@ class Qstamp
         $body = [
             'userId' => $uid,
             'username' => $username,
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         $response = $this->request($api, $body);
     }
@@ -95,7 +95,7 @@ class Qstamp
         $api="/device/sleep";
         $body = [
             'sleep' => $min,
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         $response = $this->request($api, $body);
     }
@@ -104,7 +104,7 @@ class Qstamp
     {
         $api = "/record/list";
         $body = [
-            'uuid' => $this->uuid
+            'uuid' => $this->UUID
         ];
         return $this->request($api, $body);
     }
@@ -125,10 +125,10 @@ class Qstamp
 
     public function request($api, $body)
     {
-        $headers = ["tToken: $this->stamp_token"];
+        $headers = ["tToken: $this->TOKEN"];
         $response = $this->httpClient->request(
             'POST',
-            $this->url . $api,
+            $this->API_URL . $api,
             [
                 'headers' => $headers,
                 'body' => $body
