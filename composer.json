@@ -1,6 +1,6 @@
 {
-    "name": "alzee/qstamp",
-    "description": "SDK for qyunxi stamps.",
+    "name": "alzee/qstamp-sdk-php",
+    "description": "qyunxi stamp SDK for php",
     "type": "library",
     "require": {
         "symfony/http-client": "^6.0"

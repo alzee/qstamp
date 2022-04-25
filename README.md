@@ -1,7 +1,7 @@
-# SDK for qyunxi stamp.
+# qyunxi stamp SDK for php
 
 ## Under development, **DO NOT** use it yet.
 
 ```
-composer req alzee/qstamp
+composer req alzee/qstamp-sdk-php
 ```
