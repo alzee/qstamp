@@ -28,7 +28,7 @@ class Qstamp
         $query="key=$key&secret=$secret";
         $api = $api . '?' . $query;
         $response = $this->request($api);
-        return $response;
+        return $response->getContent();
     }
 
     public function pushApplication($applicationId, $uid, $totalCount = 3, $needCount=0)
@@ -149,7 +149,7 @@ class Qstamp
             $payload
         );
 
-        $content = $response->getContent();
+        // $content = $response->getContent();
         return $response;
     }
 
