@@ -13,15 +13,15 @@ class Qstamp
     private $T_FINGERPRINT = '3WK7zYJYf5SyLeiEqedzYYWbwddQMeEi3nwbTujq';
     private $stamp_token;
     private $url;
-    private $client;
+    private $httpClient;
     private $dotenv;
 
-    public function __construct(HttpClientInterface $client)
+    public function __construct(HttpClientInterface $httpClient)
     {
         $this->stamp_token = $_ENV['stamp_token'];
         $this->url = $_ENV['api_url'];
-        $this->client = $client;
-        // $client = HttpClient::create();
+        $this->httpClient = $httpClient;
+        // $httpClient = HttpClient::create();
         $dotenv = new Dotenv();
         $dotenv->loadEnv(__DIR__.'/.env');
     }
@@ -116,7 +116,7 @@ class Qstamp
     public function request($api, $body)
     {
         $headers = ["tToken: $this->stamp_token"];
-        $response = $this->client->request(
+        $response = $this->httpClient->request(
             'POST',
             $this->url . $api,
             [
