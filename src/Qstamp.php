@@ -17,7 +17,7 @@ class Qstamp
     public function __construct($UUID, $TOKEN)
     {
         $dotenv = new Dotenv();
-        $dotenv->loadEnv(__DIR__.'/.env');
+        $dotenv->loadEnv($_SERVER['DOCUMENT_ROOT'] . '../.env');
         $httpClient = HttpClient::create();
 
         $this->UUID = $UUID;
