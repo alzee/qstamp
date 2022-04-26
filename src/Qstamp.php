@@ -9,7 +9,6 @@ class Qstamp
 {
     private $UUID;
     private $TOKEN;
-    private $API_URL;
 
     public function __construct($UUID, $TOKEN)
     {
@@ -19,7 +18,6 @@ class Qstamp
 
         $this->UUID = $UUID;
         $this->TOKEN = $TOKEN;
-        $this->API_URL = $_ENV['QSTAMP_API_URL'];
     }
 
     public function getToken($key, $secret)
@@ -129,6 +127,7 @@ class Qstamp
 
     public function request($api, $body = null, $method = 'GET')
     {
+        $API_URL = $_ENV['QSTAMP_API_URL'];
         $httpClient = HttpClient::create();
         $headers = ["tToken: $this->TOKEN"];
 
@@ -144,7 +143,7 @@ class Qstamp
 
         $response = $httpClient->request(
             $method,
-            $this->API_URL . $api,
+            $API_URL . $api,
             $payload
         );
 
