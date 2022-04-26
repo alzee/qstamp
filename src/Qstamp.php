@@ -2,7 +2,6 @@
 
 namespace Alzee\Qstamp;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -25,10 +24,9 @@ class Qstamp
 
     public function getToken($key, $secret)
     {
-        $api="/auth/tToken";
-        $query="key=$key&secret=$secret";
-        $api = $api . '?' . $query;
-        $response = $this->request($api);
+        $api = "/auth/tToken";
+        $query = "?key=$key&secret=$secret";
+        $response = $this->request($api . $query);
         return json_decode($response->getContent())->data;
     }
 
