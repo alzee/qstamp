@@ -10,7 +10,7 @@ class Qstamp
     private $UUID;
     private $TOKEN;
 
-    public function __construct($UUID, $TOKEN)
+    public function __construct($UUID, $TOKEN = null)
     {
         $dotenv = new Dotenv();
         # Some Apache config have trailing slashes
