@@ -151,7 +151,13 @@ class Qstamp
         return $response;
     }
 
-    public function uploadPic()
+    public function applicationIdFromWecom($spNo)
     {
+        return (substr($spNo, 0, 4) - 2021) . substr($spNo, 4);
+    }
+
+    public function applicationIdToWecom($applicationId)
+    {
+        return (substr($applicationId, 0, 1) + 2021) . substr($applicationId, 1);
     }
 }
