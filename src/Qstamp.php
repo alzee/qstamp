@@ -116,9 +116,13 @@ class Qstamp
         $resp = $this->listFingerprints();
         $data = json_decode($resp->getContent(), true)['data'];
         // dump($data);
-        if (isset($applicant) && isset($data['list'])) {
-            $i = array_search($applicant, array_column($data['list'], 'fingerUsername'));
-            $uid = $data['list'][$i]['fingerUserId'];
+        if (isset($applicant)) {
+            if (isset($data['list'])) {
+                $i = array_search($applicant, array_column($data['list'], 'fingerUsername'));
+                $uid = $data['list'][$i]['fingerUserId'];
+            } else {
+                $uid = 0;
+            }
         } else {
             $uid = (int)$data['total'] + 1;
         }
