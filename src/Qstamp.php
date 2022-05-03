@@ -111,14 +111,14 @@ class Qstamp
         return $this->request($api, $body);
     }
 
-    public function getUid($applicant = null)
+    public function getUid($username = null)
     {
         $resp = $this->listFingerprints();
         $data = json_decode($resp->getContent(), true)['data'];
         // dump($data);
-        if (isset($applicant)) {
+        if (isset($username)) {
             if (isset($data['list'])) {
-                $i = array_search($applicant, array_column($data['list'], 'fingerUsername'));
+                $i = array_search($username, array_column($data['list'], 'fingerUsername'));
                 $uid = $data['list'][$i]['fingerUserId'];
             } else {
                 $uid = 0;
