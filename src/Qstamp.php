@@ -129,6 +129,20 @@ class Qstamp
         return $uid;
     }
 
+    public function getUsername($uid)
+    {
+        $resp = $this->listFingerprints();
+        $data = json_decode($resp->getContent(), true)['data'];
+        // dump($data);
+        if (isset($data['list'])) {
+            $i = array_search($uid, array_column($data['list'], 'fingerUserId'));
+            $username = $data['list'][$i]['fingerUsername'];
+        } else {
+            $username = '';
+        }
+        return $username;
+    }
+
     public function request($api, $body = null, $method = 'GET')
     {
         $API_URL = $_ENV['QSTAMP_API_URL'];
